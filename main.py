@@ -5,7 +5,6 @@ import JtextArea
 import Jlabel
 import binarytree
 
-
 pygame.init()
 
 # Crear game window
@@ -17,31 +16,35 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Main Menu")
 
 #crear texto indicativo
-inst_jlabel1=Jlabel.JLabel(50,150,"Cantidad nodos")     #crear label cantidad
-inst_jlabel2=Jlabel.JLabel(50,250,"Raiz     ")          #crear label raiz
-inst_jlabel3=Jlabel.JLabel(50,350,"Nodos:   ")          #crear label nodos
+inst_jlabel1=Jlabel.JLabel(50,250,"Cantidad nodos")     #crear label cantidad
+inst_jlabel2=Jlabel.JLabel(50,350,"Raiz     ")          #crear label raiz
+inst_jlabel3=Jlabel.JLabel(50,450,"Nodos:   ")          #crear label nodos
 
 
 
 # Crear botones y areas de texto
-JtextArea1_Numeros= JtextArea.JTextArea(65,385,270,35)          #crear textarea ingreso de nodos
-JtextArea2_Raiz= JtextArea.JTextArea(65,285,270,35)          #crear textarea cantidad nodos
-JtextArea3_cantidad= JtextArea.JTextArea(65,185,270,35)          #crear textarea raiz
+JtextArea1_Numeros= JtextArea.JTextArea(65,485,270,35)          #crear textarea ingreso de nodos
+JtextArea2_Raiz= JtextArea.JTextArea(65,385,270,35)          #crear textarea cantidad nodos
+JtextArea3_cantidad= JtextArea.JTextArea(65,285,270,35)          #crear textarea raiz
 
 
-boton_arbol_binario = button.Boton(30, 500, 160, 50, "Arbol Binario")
-boton_arbol_nario= button.Boton(220, 500,160,50,"Arbol Eneario")
-
+boton_arbol_binario = button.Boton(30, 150, 160, 50, "Arbol Binario") #boton
+boton_arbol_nario= button.Boton(220, 150,160,50,"Arbol Eneario")    #boton
+boton_crear_arbol=button.Boton(160,630,100,45," > Crear  ")
 
 
 
 vector_nodos = []
-
-
+inst_arbol_bynario =binarytree.BinaryTree() # instancia arbol binario
+mostrarArbol=False
     #inst_arbol_binario.draw_binary_tree(screen,raiz, SCREEN_WIDTH // 1.5, 50, 150)
     
-    
 
+                                                                #mostrar inorden
+def llenar():
+        inst_arbol_bynario.insertion_node(raiz)  # insertar raiz
+        for i in range(cantidad_numeros):  # ingresar solo la cantidad asignada
+            inst_arbol_bynario.insertion_node(int(JtextArea1_Numeros.get_numeroS()[i]))
 
 
 #bucle
@@ -54,12 +57,27 @@ while running:
         
         if event.type == pygame.MOUSEBUTTONDOWN:
             if boton_arbol_binario.rect.collidepoint(event.pos):    #detectar colision con evento de raton
-                if cantidad_numeros > 0:
+                #animacion boton
+                boton_arbol_binario.draw(screen, (255, 8, 20), (0, 0, 0))
+                pygame.display.flip()
+                
+                if cantidad_numeros > 0: 
+                    mostrarArbol=not mostrarArbol
                     llenar()
+
+
                     
             
             if boton_arbol_nario.rect.collidepoint(event.pos):      #detectar colision con evento de raton
+                #animacion boton
+                boton_arbol_nario.draw(screen, (255, 8, 20), (0, 0, 0))
+                pygame.display.flip() 
+
                 print("¡Haz clic en el botón!")
+
+            if boton_crear_arbol.rect.collidepoint(event.pos):
+                print('llll')
+                
         
         #enviar eventos jtext area
         
@@ -71,7 +89,7 @@ while running:
     
     #titulo y decoracion
     pygame.draw.rect(screen, (0,0,0), (0, 0, SCREEN_WIDTH, 125))
-    pygame.draw.rect(screen, (128, 128, 128), ((SCREEN_WIDTH/2)-115, 125, SCREEN_WIDTH,SCREEN_HEIGHT ))
+    
     font = pygame.font.Font(None, 36)
     texto = font.render('Arboles', True, (255, 255, 255))
     screen.blit(texto, (480,65))
@@ -80,6 +98,7 @@ while running:
     #botones
     boton_arbol_binario.draw(screen, (0, 128, 255), (255, 255, 255))              # Dibujar el botón en la pantalla
     boton_arbol_nario.draw(screen, (0, 128, 255), (255, 255, 255))                # Dibujar el botón en la pantalla
+    boton_crear_arbol.draw(screen, (200,200,200) , (30,30,30))
 
 
     #Dibujo de los jtextArea
@@ -97,40 +116,33 @@ while running:
     #ingreso y dibujo de cantidad de nodos
     if JtextArea3_cantidad.get_numeroS() and 0< JtextArea3_cantidad.get_numeroS()[-1] <=19 :            #se comprueba que el vector no este vacio y el numero menor a 19
         cantidad_numeros= JtextArea3_cantidad.get_numeroS()[-1]                                         #se asigna como cantidad al ultimo valor ingresado en el jTextArea
-        inst_jlabel_cantidad=Jlabel.JLabel(210,150,str([cantidad_numeros]))                             #asignar cantidad ingresada   
+        inst_jlabel_cantidad=Jlabel.JLabel(210,250,str([cantidad_numeros]))                             #asignar cantidad ingresada   
         inst_jlabel_cantidad.draw(screen)                                                               #dibujar label con el numero ingresado
     else:
-        inst_jlabel_cantidad=Jlabel.JLabel(210,150,"0")                                                 #informar que ningun dato ha ingresado    
+        inst_jlabel_cantidad=Jlabel.JLabel(210,250,"0")                                                 #informar que ningun dato ha ingresado    
         inst_jlabel_cantidad.draw(screen)                                                               #dibujar en el label numeros ingresados
 
 
     #asignar valor raiz (ultimo del vector) y mostrarlo             
     if JtextArea2_Raiz.get_numeroS():                           #se comprueba que el vector no este vacio 
         raiz=JtextArea2_Raiz.get_numeroS()[-1]                  #se asigna como raiz al ultimo valor ingresado en el jTextArea
-        inst_jlabel_raiz=Jlabel.JLabel(210,250,str([raiz]))     #label mostrar la raiz     
+        inst_jlabel_raiz=Jlabel.JLabel(210,350,str([raiz]))     #label mostrar la raiz     
         
         inst_jlabel_raiz.draw(screen)                           #dibujar label numeros ingresados
     else:
-        inst_jlabel_raiz=Jlabel.JLabel(210,250,"None")          #informar que ningun dato ha ingresado    
+        inst_jlabel_raiz=Jlabel.JLabel(210,350,"None")          #informar que ningun dato ha ingresado    
         inst_jlabel_raiz.draw(screen)                           #dibujar en el label la raiz
 
 
     #dibujar numeros ingresados (se debe agregar y actualizar siempre)
-    inst_jlabel_numeros=Jlabel.JLabel(150,350,str(JtextArea1_Numeros.get_numeroS()))    #label mostrar la cantidad de numeros  
+    inst_jlabel_numeros=Jlabel.JLabel(150,450,str(JtextArea1_Numeros.get_numeroS()))    #label mostrar la cantidad de numeros  
     inst_jlabel_numeros.draw(screen)                                                    #dibujar label numeros ingresados
 
-    def llenar():
-        inst_arbol_bynario=binarytree.BinaryTree()                                              #instancia arbol binario
-        inst_arbol_bynario.insertion_node(raiz)                                                 #insertar raiz
-        for i in range (cantidad_numeros):                                                      #ingresar solo la cantidad asignada
-            inst_arbol_bynario.insertion_node(JtextArea1_Numeros.get_numeroS()[i])              #ingresar los numeros como nodos
-        
-        inst_arbol_bynario.mostrar()                                                            #mostrar inorden
-        
-        
-    
-        
-        
+
+    if mostrarArbol:
+        inst_arbol_bynario.iniciardibujo(screen, SCREEN_WIDTH // 1.5, 150, 90)  # mostrar inorden
+            
+
 
     pygame.display.flip()
 
