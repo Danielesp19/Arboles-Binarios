@@ -15,6 +15,11 @@ class interfaz:
         raiz=0
         cantidad_numeros=0
         bandera_recorridos=False
+        bandera_preorden=False
+        bandera_inorden=False
+        bandera_posorden=False
+        bandera_amplitud=False
+        
 
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption("Main Menu")
@@ -36,6 +41,12 @@ class interfaz:
         boton_triangulo = button.Boton(320, 150,30,50," V ")                  #boton
         boton_crear_arbol=button.Boton(150,630,100,45," > Crear  ")
 
+        boton_recorrido_inorden=button.Boton(55,200,120,49,"In-orden")
+        boton_recorrido_preorden=button.Boton(185,200,120,49,"pre-orden")
+        boton_recorrido_posorden=button.Boton(55,249,120,50,"pos-orden")
+        boton_recorrido_amplitud=button.Boton(185,249,120,50,"amplitud")
+
+        
         
         inst_arbol_bynario =binarytree.BinaryTree()                          #instancia arbol binario
         mostrarArbol=False                                                   #bandera para mostrar el arbol
@@ -64,6 +75,16 @@ class interfaz:
 
                         #mostrar recorridos
                         bandera_recorridos= not bandera_recorridos
+                    
+                    if boton_recorrido_preorden.rect.collidepoint(event.pos):
+                        bandera_preorden= not bandera_preorden
+                    if boton_recorrido_inorden.rect.collidepoint(event.pos):
+                        bandera_inorden= not bandera_inorden
+                    if boton_recorrido_posorden.rect.collidepoint(event.pos):
+                        bandera_posorden= not bandera_posorden
+                    if boton_recorrido_amplitud.rect.collidepoint(event.pos):
+                        bandera_amplitud= not bandera_amplitud
+                    
                         
                     if boton_crear_arbol.rect.collidepoint(event.pos):
                         if cantidad_numeros > 0: 
@@ -71,6 +92,7 @@ class interfaz:
                             inst_arbol_bynario.insertion_node(raiz)                                                         # insertar raiz
                             for i in range(cantidad_numeros):                                                               # ingresar solo la cantidad asignada
                                 inst_arbol_bynario.insertion_node(int(JtextArea1_Numeros.get_numeroS()[i]))
+                                
 
                 #enviar eventos jtext area
                 JtextArea2_Raiz.handle_event(event)
@@ -132,20 +154,34 @@ class interfaz:
             inst_jlabel_numeros=Jlabel.JLabel(150,520,str(JtextArea1_Numeros.get_numeroS()))    #label mostrar la cantidad de numeros  
             inst_jlabel_numeros.draw(screen)                                                    #dibujar label numeros ingresados
 
+
             if bandera_recorridos:
                 pygame.draw.rect(screen, (200, 200, 200), (55, 200, 295, 100))
-                boton_recorrido_inorden=button.Boton(55,200,115,49,"In-orden")
-                boton_recorrido_preorden=button.Boton(175,200,115,49,"In-orden")
-                boton_recorrido_posorden=button.Boton(55,249,115,49,"In-orden")
-                boton_recorrido_amplitud=button.Boton(175,249,115,49,"In-orden")
+                
                 
                 boton_recorrido_inorden.draw(screen,(190,190,190) , (30,30,30))
                 boton_recorrido_preorden.draw(screen,(190,190,190) , (30,30,30))
                 boton_recorrido_posorden.draw(screen,(190,190,190) , (30,30,30))
                 boton_recorrido_amplitud.draw(screen,(190,190,190) , (30,30,30))
+
+            if bandera_preorden:
+                jlabel_recorrido_pre= Jlabel.JLabel(500,500,inst_arbol_bynario.mostrar_preorden())
+                jlabel_recorrido_pre.draw(screen)
+            if bandera_inorden:
+                jlabel_recorrido_in= Jlabel.JLabel(500,520,inst_arbol_bynario.mostrar())
+                jlabel_recorrido_in.draw(screen)
+            if bandera_posorden:
+                jlabel_recorrido_pos= Jlabel.JLabel(500,540,inst_arbol_bynario.mostrar_posorden())
+                jlabel_recorrido_pos.draw(screen)
+            if bandera_amplitud:
+                jlabel_recorrido_ampli= Jlabel.JLabel(500,560,inst_arbol_bynario.mostrar_amplitud())
+                jlabel_recorrido_ampli.draw(screen)
+
+
             if mostrarArbol:
                 inst_arbol_bynario.iniciardibujo(screen, SCREEN_WIDTH // 1.5, 150, 90)  # mostrar inorden
 
+            
 
             pygame.display.flip()
 

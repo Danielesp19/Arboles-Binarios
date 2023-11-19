@@ -56,13 +56,71 @@ class BinaryTree:
         text_rect = text.get_rect(center=(x, y))
         screen.blit(text, text_rect)
 
-    def mostrar(self):
-        if self.root is not None:
-            self._mostrar_recursivamente(self.root)
 
-    def _mostrar_recursivamente(self, node):
+    #in-orden
+    def mostrar(self):
+        orden = []  # Lista para acumular los valores
+
+        if self.root is not None:
+            self._mostrar_recursivamente(self.root, orden)
+
+        return "nodos: " + ", ".join(map(str, orden))  # Devolver una cadena separada por comas
+
+    def _mostrar_recursivamente(self, node, resultado):
         if node is not None:
-            self._mostrar_recursivamente(node.left)
-            print(node.value)
-            self._mostrar_recursivamente(node.right)
+            self._mostrar_recursivamente(node.left, resultado)
+            resultado.append(str(node.value))  # Agregar el valor a la lista
+            self._mostrar_recursivamente(node.right, resultado)
+
+    #pos-orden
+    def mostrar_posorden(self):
+        orden = []  # Lista para acumular los valores
+
+        if self.root is not None:
+            self._mostrar_posorden_recursivamente(self.root, orden)
+
+        return "nodos (Posorden): " + ", ".join(map(str, orden))  # Devolver una cadena separada por comas
+
+    def _mostrar_posorden_recursivamente(self, node, resultado):
+        if node is not None:
+            self._mostrar_posorden_recursivamente(node.left, resultado)
+            self._mostrar_posorden_recursivamente(node.right, resultado)
+            resultado.append(str(node.value))  # Agregar el valor a la lista
+
+    #pre orden
+    def mostrar_preorden(self):
+        orden = []  # Lista para acumular los valores
+
+        if self.root is not None:
+            self._mostrar_preorden_recursivamente(self.root, orden)
+
+        return "nodos (Preorden): " + ", ".join(map(str, orden))  # Devolver una cadena separada por comas
+
+    def _mostrar_preorden_recursivamente(self, node, resultado):
+        if node is not None:
+            resultado.append(str(node.value))  # Agregar el valor a la lista
+            self._mostrar_preorden_recursivamente(node.left, resultado)
+            self._mostrar_preorden_recursivamente(node.right, resultado)
+
+    def mostrar_amplitud(self):
+        orden = []  # Lista para acumular los valores
+        cola = []
+
+        if self.root is not None:
+            cola.append(self.root)
+
+        frente = 0  # Índice del frente de la cola
+
+        while frente < len(cola):
+            node = cola[frente]
+            orden.append(str(node.value))
+
+            if node.left is not None:
+                cola.append(node.left)
+            if node.right is not None:
+                cola.append(node.right)
+
+            frente += 1
+
+        return "nodos (Amplitud): " + ", ".join(orden)
 
