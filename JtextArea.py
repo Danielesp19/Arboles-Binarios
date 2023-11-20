@@ -22,8 +22,7 @@ class JTextArea:
         pygame.draw.rect(surface, self.bg_color, self.rect)
 
         # Dibuja el borde alrededor del rectángulo de fondo
-        border_rect = pygame.Rect(self.rect.x - self.border_width, self.rect.y - self.border_width,
-                                  self.rect.width + 2 * self.border_width, self.rect.height + 2 * self.border_width)
+        border_rect = pygame.Rect(self.rect.x - self.border_width, self.rect.y - self.border_width,self.rect.width + 2 * self.border_width, self.rect.height + 2 * self.border_width)
         pygame.draw.rect(surface, self.border_color, border_rect, self.border_width)
 
         # Dibuja el texto en el centro del rectángulo

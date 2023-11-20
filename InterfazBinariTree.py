@@ -54,71 +54,19 @@ class interfaz:
         #bucle
         running = True
         while running:
-            for event in pygame.event.get():
-                #salir
-                if event.type == pygame.QUIT:
-                    running = False
-                    
-                
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if boton_volver.rect.collidepoint(event.pos):           #detectar colision con evento de raton
-                        #animacion boton
-                        boton_volver.draw(screen, (255, 8, 20), (0, 0, 0))
-                        pygame.display.flip()
-
-                        
-
-                    if boton_recorridos.rect.collidepoint(event.pos):       #detectar colision con evento de raton
-                        #animacion boton
-                        boton_recorridos.draw(screen, (255, 8, 20), (0, 0, 0))
-                        pygame.display.flip() 
-
-                        #mostrar recorridos
-                        bandera_recorridos= not bandera_recorridos
-                    
-                    if boton_recorrido_preorden.rect.collidepoint(event.pos):
-                        bandera_preorden= not bandera_preorden
-                    if boton_recorrido_inorden.rect.collidepoint(event.pos):
-                        bandera_inorden= not bandera_inorden
-                    if boton_recorrido_posorden.rect.collidepoint(event.pos):
-                        bandera_posorden= not bandera_posorden
-                    if boton_recorrido_amplitud.rect.collidepoint(event.pos):
-                        bandera_amplitud= not bandera_amplitud
-                    
-                        
-                    if boton_crear_arbol.rect.collidepoint(event.pos):
-                        if cantidad_numeros > 0: 
-                            mostrarArbol=not mostrarArbol                                                                   #Bandera dibuja el arbol
-                            inst_arbol_bynario.insertion_node(raiz)                                                         # insertar raiz
-                            for i in range(cantidad_numeros):                                                               # ingresar solo la cantidad asignada
-                                inst_arbol_bynario.insertion_node(int(JtextArea1_Numeros.get_numeroS()[i]))
-                                
-
-                #enviar eventos jtext area
-                JtextArea2_Raiz.handle_event(event)
-                JtextArea3_cantidad.handle_event(event)
-                JtextArea1_Numeros.handle_event(event)
-
             screen.fill((255, 255, 255))  # Rellenar la pantalla con blanco
             
             #titulo y decoracion
             pygame.draw.rect(screen, (20, 20, 30), (0, 0, SCREEN_WIDTH, 125))
-
-            # Cuadrados de decoración
-            pygame.draw.rect(screen, (50, 50, 50), (50, 10, 950, 48))
-            
-
             # Texto del título
             font = pygame.font.SysFont('calibri', 60, bold=True)
             texto = font.render('Arboles binarios', True, (255, 255, 255))
             screen.blit(texto, (350, 30))
-
             #botones
             boton_volver.draw(screen, (230, 48, 90), (255, 255, 255))                    
             boton_recorridos.draw(screen, (230, 60, 90), (255, 255, 255))                
             boton_crear_arbol.draw(screen, (200,200,200) , (30,30,30))
             boton_triangulo.draw(screen,(200,200,200) , (30,30,30))
-
             
             #Dibujo de los jtextArea
             JtextArea1_Numeros.draw(screen)                         #area de ingreso numeros
@@ -129,8 +77,6 @@ class interfaz:
             inst_jlabel1.draw(screen)                       #mensaje "cantidad"
             inst_jlabel2.draw(screen)                       #mensaje "raiz"
             inst_jlabel3.draw(screen)                       #mensaje "nodos"
-
-
 
             #ingreso y dibujo de cantidad de nodos
             if JtextArea3_cantidad.get_numeroS() and 0< JtextArea3_cantidad.get_numeroS()[-1] <=19 :            #se comprueba que el vector no este vacio y el numero menor a 19
@@ -154,7 +100,7 @@ class interfaz:
             inst_jlabel_numeros=Jlabel.JLabel(150,520,str(JtextArea1_Numeros.get_numeroS()))    #label mostrar la cantidad de numeros  
             inst_jlabel_numeros.draw(screen)                                                    #dibujar label numeros ingresados
 
-
+            #
             if bandera_recorridos:
                 pygame.draw.rect(screen, (200, 200, 200), (55, 200, 295, 100))
                 
@@ -177,11 +123,47 @@ class interfaz:
                 jlabel_recorrido_ampli= Jlabel.JLabel(500,560,inst_arbol_bynario.mostrar_amplitud())
                 jlabel_recorrido_ampli.draw(screen)
 
-
+            #se muestraa el arbol
             if mostrarArbol:
                 inst_arbol_bynario.iniciardibujo(screen, SCREEN_WIDTH // 1.5, 150, 90)  # mostrar inorden
 
-            
+            for event in pygame.event.get():
+                #salir
+                if event.type == pygame.QUIT:
+                    running = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if boton_volver.rect.collidepoint(event.pos):           #detectar colision con evento de raton
+                        #animacion boton
+                        boton_volver.draw(screen, (255, 8, 20), (0, 0, 0))
+                        pygame.display.flip()
+
+                    if boton_recorridos.rect.collidepoint(event.pos):       #detectar colision con evento de raton
+                        #animacion boton
+                        boton_recorridos.draw(screen, (255, 8, 20), (0, 0, 0))
+                        pygame.display.flip() 
+
+                        #mostrar recorridos
+                        bandera_recorridos= not bandera_recorridos
+                    
+                    if boton_recorrido_preorden.rect.collidepoint(event.pos):
+                        bandera_preorden= not bandera_preorden
+                    if boton_recorrido_inorden.rect.collidepoint(event.pos):
+                        bandera_inorden= not bandera_inorden
+                    if boton_recorrido_posorden.rect.collidepoint(event.pos):
+                        bandera_posorden= not bandera_posorden
+                    if boton_recorrido_amplitud.rect.collidepoint(event.pos):
+                        bandera_amplitud= not bandera_amplitud
+                    
+                    if boton_crear_arbol.rect.collidepoint(event.pos):
+                        if cantidad_numeros > 0: 
+                            mostrarArbol=not mostrarArbol                                                                   #Bandera dibuja el arbol
+                            inst_arbol_bynario.insertion_node(raiz)                                                         # insertar raiz
+                            for i in range(cantidad_numeros):                                                               # ingresar solo la cantidad asignada
+                                inst_arbol_bynario.insertion_node(int(JtextArea1_Numeros.get_numeroS()[i]))
+                #enviar eventos jtext area
+                JtextArea2_Raiz.handle_event(event)
+                JtextArea3_cantidad.handle_event(event)
+                JtextArea1_Numeros.handle_event(event)
 
             pygame.display.flip()
 
