@@ -64,7 +64,7 @@ class BinaryTree:
         if self.root is not None:
             self._mostrar_recursivamente(self.root, orden)
 
-        return "nodos: " + ", ".join(map(str, orden))  # Devolver una cadena separada por comas
+        return "nodos (Inorden): " + ", ".join(map(str, orden))  # Devolver una cadena separada por comas
 
     def _mostrar_recursivamente(self, node, resultado):
         if node is not None:

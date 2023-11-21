@@ -139,7 +139,7 @@ class interfaz:
 
                                 print('exito')
                     if boton_volver.rect.collidepoint(event.pos):
-                        self.iniciar()
+                        del self
                     if boton_recorrido.rect.collidepoint(event.pos):
                         bandera_amplitud=not bandera_amplitud
 

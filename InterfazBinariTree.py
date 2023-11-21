@@ -19,7 +19,7 @@ class interfaz:
         bandera_inorden=False
         bandera_posorden=False
         bandera_amplitud=False
-        
+        mostrarArbol=False                                                   #bandera para mostrar el arbol
 
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption("Main Menu")
@@ -29,8 +29,6 @@ class interfaz:
         inst_jlabel2=Jlabel.JLabel(50,420,"Raiz     ")                       #crear label raiz
         inst_jlabel3=Jlabel.JLabel(50,520,"Nodos:   ")                       #crear label nodos
 
-
-        
         # Crear botones y areas de texto
         JtextArea2_Raiz= JtextArea.JTextArea(65,455,270,35)                  #crear textarea cantidad nodos
         JtextArea3_cantidad= JtextArea.JTextArea(65,355,270,35)              #crear textarea raiz
@@ -49,8 +47,7 @@ class interfaz:
         
         
         inst_arbol_bynario =binarytree.BinaryTree()                          #instancia arbol binario
-        mostrarArbol=False                                                   #bandera para mostrar el arbol
-
+        
         #bucle
         running = True
         while running:
@@ -111,16 +108,16 @@ class interfaz:
                 boton_recorrido_amplitud.draw(screen,(190,190,190) , (30,30,30))
 
             if bandera_preorden:
-                jlabel_recorrido_pre= Jlabel.JLabel(500,500,inst_arbol_bynario.mostrar_preorden())
+                jlabel_recorrido_pre= Jlabel.JLabel(500,550,inst_arbol_bynario.mostrar_preorden())
                 jlabel_recorrido_pre.draw(screen)
             if bandera_inorden:
                 jlabel_recorrido_in= Jlabel.JLabel(500,520,inst_arbol_bynario.mostrar())
                 jlabel_recorrido_in.draw(screen)
             if bandera_posorden:
-                jlabel_recorrido_pos= Jlabel.JLabel(500,540,inst_arbol_bynario.mostrar_posorden())
+                jlabel_recorrido_pos= Jlabel.JLabel(500,580,inst_arbol_bynario.mostrar_posorden())
                 jlabel_recorrido_pos.draw(screen)
             if bandera_amplitud:
-                jlabel_recorrido_ampli= Jlabel.JLabel(500,560,inst_arbol_bynario.mostrar_amplitud())
+                jlabel_recorrido_ampli= Jlabel.JLabel(500,610,inst_arbol_bynario.mostrar_amplitud())
                 jlabel_recorrido_ampli.draw(screen)
 
             #se muestraa el arbol
@@ -161,6 +158,8 @@ class interfaz:
                             for i in range(cantidad_numeros):                                                               # ingresar solo la cantidad asignada
                                 inst_arbol_bynario.insertion_node(int(JtextArea1_Numeros.get_numeroS()[i]))
                             mostrarArbol=not mostrarArbol                                                                  #Bandera dibuja el arbol
+
+
                 #enviar eventos jtext area
                 JtextArea2_Raiz.handle_event(event)
                 JtextArea3_cantidad.handle_event(event)
