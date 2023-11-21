@@ -14,3 +14,6 @@ class JLabel:
         text_surface = font.render(self.text, True, self.text_color)
         text_rect = text_surface.get_rect(topleft=(self.x, self.y))
         surface.blit(text_surface, text_rect)
+
+    def set_message(self, new_message):
+        self.text = new_message

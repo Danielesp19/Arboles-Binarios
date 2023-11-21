@@ -52,3 +52,19 @@ class NaryTree:
         text = font.render(str(node.value), True, (0, 0, 0))
         text_rect = text.get_rect(center=(x, y))
         screen.blit(text, text_rect)
+
+    def mostrar_amplitud(self):
+        orden = []  # Lista para acumular los valores
+        cola = []
+
+        if self.root is not None:
+            cola.append(self.root)
+
+        while cola:
+            node = cola.pop(0)
+            orden.append(str(node.value))
+
+            for child in node.children:
+                cola.append(child)
+
+        return "nodos (Amplitud): " + ", ".join(orden)

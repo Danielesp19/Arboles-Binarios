@@ -57,4 +57,7 @@ class JTextArea:
 
     def get_numeroS(self):
         return self.text_entradas
+    
+    def vaciar_vector(self):
+        self.text_entradas = []
 # Inicialización de Pygame
