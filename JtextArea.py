@@ -42,7 +42,8 @@ class JTextArea:
                 try:
                     # Intenta convertir el texto a un número
                     num = int(self.text)
-                    self.text_entradas.append(num)
+                    if num >0:
+                        self.text_entradas.append(num)
                 except ValueError:
                     # Ignora la entrada si no es un número
                     pass

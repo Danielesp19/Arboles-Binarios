@@ -139,15 +139,21 @@ class interfaz:
                     if boton_next.rect.collidepoint(event.pos):
                         
                         if total>0:
-                            while total>cont_ciclos:
+                            if total>cont_ciclos:
                                 if len((JtextArea1_Numeros.get_numeroS()))>=cantidad_hijos:
                                     if cont_ciclos==0:
-                                        inst_arbol_nario.insert_node(None,int(JtextArea2_padre.get_numeroS())) 
-                                    else:
+                                        inst_arbol_nario.insert_node(None,int(padre)) 
+                                        cont_ciclos+=1
                                         for i in range(cantidad_hijos):                                                               # ingresar solo la cantidad asignada
                                             inst_arbol_nario.insert_node(padre,int(JtextArea1_Numeros.get_numeroS()[i]))                    #Bandera dibuja el arbol
                                             cont_ciclos+=1
-                                    
+
+
+                                    else:
+                                        for i in range(len(JtextArea1_Numeros.get_numeroS()) - cantidad_hijos, len(JtextArea1_Numeros.get_numeroS())):
+                                            inst_arbol_nario.insert_node(padre, int(JtextArea1_Numeros.get_numeroS()[i]))
+                                            cont_ciclos += 1
+                                    print('exito')
                     if boton_volver.rect.collidepoint(event.pos):
                         self.iniciar()
                 #enviar eventos jtext area
