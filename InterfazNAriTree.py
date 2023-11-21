@@ -3,11 +3,14 @@ import sys
 import button
 import JtextArea
 import Jlabel
-import binarytree
+import naerytree
 
 
 class interfaz:
     def __init__(self):
+        self.iniciar()
+
+    def iniciar(self):
         pygame.init()
         # Crear game window
         SCREEN_WIDTH = 1100
@@ -16,8 +19,8 @@ class interfaz:
         cantidad_hijos=0
         total=0
         bandera_amplitud=False
-        mensaje=False
-        numeros =[]
+        cont_ciclos=0
+        
         
 
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -38,12 +41,12 @@ class interfaz:
         JtextArea_total_nodos=JtextArea.JTextArea(65,215,270,35)
 
         boton_volver  = button.Boton(980, 620, 90, 50, " Salir ")          #boton
-        boton_crear_arbol=button.Boton(145,630,120,45," > Siguiente  ")
-        boton_recorrido_amplitud=button.Boton(355,659,120,50,"amplitud")    #crear boton amplitud
+        boton_next=button.Boton(145,630,120,45," > Siguiente  ")
+        boton_recorrido_amplitud=button.Boton(355,659,120,50,"siguiente")    #crear boton amplitud
 
         
         
-        inst_arbol_bynario =binarytree.BinaryTree()                          #instancia arbol binario
+        inst_arbol_nario =naerytree.NaryTree()                               #instancia arbol binario
 
         mostrarArbol=False                                                   #bandera para mostrar el arbol
 
@@ -51,7 +54,6 @@ class interfaz:
         running = True
         while running:
             screen.fill((255, 255, 255))  # Rellenar la pantalla con blanco
-            
             #titulo y decoracion
             pygame.draw.rect(screen, (20, 20, 30), (0, 0, SCREEN_WIDTH, 125))
             
@@ -62,7 +64,7 @@ class interfaz:
 
             #botones
             boton_volver.draw(screen, (230, 48, 90), (255, 255, 255))                                  
-            boton_crear_arbol.draw(screen, (200,200,200) , (30,30,30))
+            boton_next.draw(screen, (200,200,200) , (30,30,30))
             
 
             
@@ -94,7 +96,7 @@ class interfaz:
                 inst_jlabel_padre=Jlabel.JLabel(210,320,str([padre]))     #label mostrar la padre     
                 inst_jlabel_padre.draw(screen)                           #dibujar label numeros ingresados
             else:
-                inst_jlabel_padre=Jlabel.JLabel(210,320,"0")             #informar que ningun dato ha ingresado    
+                inst_jlabel_padre=Jlabel.JLabel(210,320,None)             #informar que ningun dato ha ingresado    
                 inst_jlabel_padre.draw(screen)                           #dibujar en el label la padre
 
 
@@ -114,18 +116,12 @@ class interfaz:
             boton_recorrido_amplitud.draw(screen,(190,190,190) , (30,30,30))
             
             if bandera_amplitud:
-                jlabel_recorrido_ampli= Jlabel.JLabel(500,560,inst_arbol_bynario.mostrar_amplitud())
+                jlabel_recorrido_ampli= Jlabel.JLabel(500,560,inst_arbol_nario.mostrar_amplitud())
                 jlabel_recorrido_ampli.draw(screen)
 
 
             if mostrarArbol:
-                inst_arbol_bynario.iniciardibujo(screen, SCREEN_WIDTH // 1.5, 150, 90)  # mostrar inorden
-            
-            intmensaje=0
-            #mensaje
-            if intmensaje>0:
-                boton_error_mensaje  = button.Boton(480, 180, 430, 370, "Error: verifica lo ingresado")
-                boton_error_mensaje.draw(screen,(255, 8, 20), (255, 255, 255))
+                inst_arbol_nario.initiate_drawing(screen, SCREEN_WIDTH // 1.5, 150, 90)  # mostrar inorden
             
             for event in pygame.event.get():
                 #salir
@@ -138,25 +134,28 @@ class interfaz:
                         pygame.display.flip()
 
                     if boton_recorrido_amplitud.rect.collidepoint(event.pos):
-                        bandera_amplitud= not bandera_amplitud
+                        mostrarArbol=not mostrarArbol 
 
-                    if boton_crear_arbol.rect.collidepoint(event.pos):
-                        print(JtextArea1_Numeros.get_numeroS())
+                    if boton_next.rect.collidepoint(event.pos):
                         
-                        mostrarArbol=not mostrarArbol                                                                   #Bandera dibuja el arbol
-                        inst_arbol_bynario.insertion_node(padre)                                                         # insertar padre
-                        if len((JtextArea1_Numeros.get_numeroS()))==cantidad_hijos:
-                            
-                            for i in range(cantidad_hijos):                                                               # ingresar solo la cantidad asignada
-                                inst_arbol_bynario.insertion_node(int(JtextArea1_Numeros.get_numeroS()[i]))
-                        else:
-                            intmensaje=1000
+                        if total>0:
+                            while total>cont_ciclos:
+                                if len((JtextArea1_Numeros.get_numeroS()))>=cantidad_hijos:
+                                    if cont_ciclos==0:
+                                        inst_arbol_nario.insert_node(None,int(JtextArea2_padre.get_numeroS())) 
+                                    else:
+                                        for i in range(cantidad_hijos):                                                               # ingresar solo la cantidad asignada
+                                            inst_arbol_nario.insert_node(padre,int(JtextArea1_Numeros.get_numeroS()[i]))                    #Bandera dibuja el arbol
+                                            cont_ciclos+=1
+                                    
+                    if boton_volver.rect.collidepoint(event.pos):
+                        self.iniciar()
                 #enviar eventos jtext area
                 JtextArea2_padre.handle_event(event)
                 JtextArea3_cantidad.handle_event(event)
                 JtextArea1_Numeros.handle_event(event)
                 JtextArea_total_nodos.handle_event(event)
-            intmensaje-=1
+            
             pygame.display.flip()
             
         pygame.quit()

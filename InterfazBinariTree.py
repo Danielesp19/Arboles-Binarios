@@ -155,11 +155,12 @@ class interfaz:
                         bandera_amplitud= not bandera_amplitud
                     
                     if boton_crear_arbol.rect.collidepoint(event.pos):
-                        if cantidad_numeros > 0: 
-                            mostrarArbol=not mostrarArbol                                                                   #Bandera dibuja el arbol
-                            inst_arbol_bynario.insertion_node(raiz)                                                         # insertar raiz
+                        
+                        if len((JtextArea1_Numeros.get_numeroS()))>=cantidad_numeros and cantidad_numeros>0 and raiz!=0 :
+                            inst_arbol_bynario.insertion_node(raiz)
                             for i in range(cantidad_numeros):                                                               # ingresar solo la cantidad asignada
                                 inst_arbol_bynario.insertion_node(int(JtextArea1_Numeros.get_numeroS()[i]))
+                            mostrarArbol=not mostrarArbol                                                                  #Bandera dibuja el arbol
                 #enviar eventos jtext area
                 JtextArea2_Raiz.handle_event(event)
                 JtextArea3_cantidad.handle_event(event)
@@ -169,9 +170,3 @@ class interfaz:
 
         pygame.quit()
         sys.exit()
-
-
-
-
-
-

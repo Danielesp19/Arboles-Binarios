@@ -3,8 +3,9 @@ import sys
 import button
 import InterfazBinariTree
 import InterfazNAriTree
-pygame.init()
 
+
+pygame.init()
 # Dimensiones de la ventana
 ventana_ancho = 650
 ventana_alto = 413
